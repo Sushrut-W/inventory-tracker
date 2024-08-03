@@ -3,7 +3,7 @@ import {Image} from "next/image";
 import {useState, useEffect} from 'react'
 import {firestore} from '@/firebase'
 import { Box, Modal, Button, Stack, TextField, Typography } from "@mui/material";
-import { query, collection, getDocs, getDoc, doc, setDoc } from "firebase/firestore";
+import { query, collection, getDocs, getDoc, doc, setDoc, deleteDoc } from "firebase/firestore";
 
 export default function Home() {
   const [inventory, setInventory] = useState([]);
@@ -24,7 +24,8 @@ export default function Home() {
   }
 
   const addItem = async (item) => {
-    const docRef = doc(collection(firestore, 'inventory'), item);
+    const lowerCaseItem = item.toLowerCase();
+    const docRef = doc(collection(firestore, 'inventory'), lowerCaseItem);
     const docSnap = await getDoc(docRef);
     
     if(docSnap.exists()){
@@ -93,17 +94,25 @@ export default function Home() {
               variant='outlined'
               fullWidth
               value={itemName}
+              onKeyDown={(k)=>{
+                if (k.key === 'Enter'){
+                  k.preventDefault();
+                  addItem(itemName.toLowerCase());
+                  setItemName('');
+                  handleClose();
+                }
+              }}
               onChange={(e)=>{
                 setItemName(e.target.value)
               }}
             />
             <Button
               variant='outlined'
-              onClick={()=>{
-                addItem(itemName)
+               onClick={()=>{
+                addItem(itemName.toLowerCase())
                 setItemName('')
                 handleClose()
-              }}
+              }} 
             >
               Add
             </Button>
@@ -148,10 +157,10 @@ export default function Home() {
                 <Typography variant='h3' color='purple' textAlign={'center'}>
                   {name.charAt(0).toUpperCase() + name.slice(1)}
                 </Typography>
-                <Typography variant='h3' color='purple' textAlign={'center'}>
+                <Stack direction='row' spacing={5}>
+                <Typography variant='h3' color='black' textAlign={'center'}>
                   {quantity}
                 </Typography>
-                <Stack direction='row' spacing={3}>
                   <Button
                     variant='contained'
                     onClick={()=>{
