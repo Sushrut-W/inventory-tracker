@@ -99,7 +99,7 @@ export default function Home() {
    *  dGray - #8A8A8A
   */
   return(
-    <Box width='100vw' height='90vh' display='flex' flexDirection={'column'} justifyContent='center'
+    <Box width='100vw' height='100vh' display='flex' flexDirection={'column'} justifyContent='center'
     alignItems='center' gap={0} bgcolor={RED} className={rob.className}>
       <Modal open={open} onClose={handleClose}>
         <Box
@@ -178,14 +178,14 @@ export default function Home() {
         </Stack>
       </Box>
 
-      <Box border='2px solid black' bgcolor={GREY} width={totWidth}>
+      <Box border='2px solid black' bgcolor={GREY} width={totWidth} maxHeight='80%'>
         <Box width="100%" height='60px' bgcolor={DGREY} alignItems={'center'} justifyContent={'center'} display={'flex'}>
           <Typography variant='h3' className={rob.className} color='black'>
             Inventory Items
           </Typography>
         </Box>
       
-        <Stack fullWidth height="600px" spacing={0} overflow='auto'>
+        <Stack fullWidth height='500px' spacing={0} overflow='auto'>
           {
             inventory.map(({name, quantity})=>(
               <Box
