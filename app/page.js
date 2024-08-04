@@ -3,9 +3,13 @@ import {Image} from "next/image";
 import {useState, useEffect} from 'react'
 import {firestore} from '@/firebase'
 import { Box, Modal, Button, Stack, TextField, Typography } from "@mui/material";
-// import HomeIcon from '@mui/icons-material/Home';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import { query, collection, getDocs, getDoc, doc, setDoc, deleteDoc } from "firebase/firestore";
+import { Roboto_Condensed } from "next/font/google";
+
+const rob = Roboto_Condensed({
+  subsets: ["latin"]
+});
 
 export default function Home() {
   const [inventory, setInventory] = useState([]);
@@ -82,8 +86,10 @@ export default function Home() {
   let RED = '#E61031';
   let BLUE = '#005BAD';
   let WHITE = '#FFFFFF';
-  let GREY = '#F2F2F2';
+  let GREY = '#D9D9D9';
   let DGREY = '#8A8A8A';
+  let totWidth = '80%'
+  let totHeight = '80%'
   
   /* Use colors:
    *  Red   - #E61031
@@ -93,20 +99,22 @@ export default function Home() {
    *  dGray - #8A8A8A
   */
   return(
-    <Box width='100vw' height='100vh' display='flex' flexDirection={'column'} justifyContent='center' alignItems='center' gap={0} bgcolor={RED}>
+    <Box width='100vw' height='100vh' display='flex' flexDirection={'column'} justifyContent='center'
+    alignItems='center' gap={0} bgcolor={RED} className={rob.className}>
       <Modal open={open} onClose={handleClose}>
         <Box
           position='absolute' top='50%' left='50%' width={400}
-          bgcolor={GREY} border='2px solid black' boxShadow={24}
+          bgcolor='white' border='2px solid black' boxShadow={24}
           p={4} display={"flex"} flexDirection={"column"} gap={3}
           sx={{
             transform:'translate(-50%, -50%)',
           }}
         >
-          <Typography variant='h6' color='#E61031'>Add Item</Typography>
+          <Typography variant='h6' color={RED} className={rob.className}>Add Item</Typography>
           <Stack width='100%' direction='row' spacing={2}>
             <TextField 
               variant='outlined'
+              className={rob.className}
               fullWidth
               value={itemName}
               onKeyDown={(k)=>{
@@ -123,6 +131,7 @@ export default function Home() {
             />
             <Button
               variant='outlined'
+              className={rob.className}
               onClick={()=>{
                 addItem(itemName.toLowerCase())
                 setItemName('')
@@ -135,8 +144,11 @@ export default function Home() {
         </Box>
       </Modal>
       
-      <Box width='800px' height='50px' bgcolor='#170B3B' alignItems='center' justifyContent='space-between' display='flex'>
+      <Box width='80%' height='60px' bgcolor={GREY} alignItems='center'
+      justifyContent='space-between' display='flex' border={2} borderBottom={0}
+      padding={2}>
         <Button variant='contained'
+        className={rob.className}
           onClick={()=>{
             handleOpen();
           }}
@@ -144,19 +156,20 @@ export default function Home() {
           Add New Item
         </Button>
         <Stack direction='row' spacing={1}>
-          <TextField width='200px' size='small' variant='outlined' placeholder='Item name' type='search'
+          <TextField width='100px' size='small' variant='outlined' placeholder='Item name' type='search'
+            style={{width: 200}}
             onChange={(e)=>{
               setSearchName((e.target.value).toLowerCase());
             }}
           />
-          <Button variant='contained'
+          <Button variant='contained' className={rob.className}
             onClick={()=>{
               searchFor(searchName.toLowerCase());
             }}
           >
             Search
           </Button>
-          <Button variant='contained' sx={{m:2}} startIcon={<FormatListBulletedIcon/>}
+          <Button variant='contained' className={rob.className} sx={{m:2}} startIcon={<FormatListBulletedIcon/>}
             onClick={() => {
               updateInventory();
             }}
@@ -165,41 +178,43 @@ export default function Home() {
         </Stack>
       </Box>
 
-      <Box border='1px solid red'>
-        <Box width='800px' height='100px' bgcolor='#170B3B' alignItems={'center'} justifyContent={'center'} display={'flex'}>
-          <Typography variant='h2' color='#9388A2'>
+      <Box border='2px solid black' bgcolor={GREY} width={totWidth}>
+        <Box width="100%" height='60px' bgcolor={DGREY} alignItems={'center'} justifyContent={'center'} display={'flex'}>
+          <Typography variant='h3' className={rob.className} color='black'>
             Inventory Items
           </Typography>
         </Box>
       
-        <Stack width='800px' height='300px' spacing={2} overflow='auto'>
+        <Stack fullWidth height="600px" spacing={0} overflow='auto'>
           {
             inventory.map(({name, quantity})=>(
               <Box
               key={name}
               width='100%'
-              minHeight='150px'
+              minHeight='50px'
               display='flex'
               alignItems={'center'}
               justifyContent={'space-between'}
-              bgcolor='#9388A2'
-              padding={5}
+              bgcolor={GREY}
+              padding={3}
+              paddingLeft={2}
+              borderTop={1}
               >
-                <Typography variant='h3' color='purple' textAlign={'center'}>
+                <Typography variant='h4' className={rob.className} color={BLUE} textAlign={'center'}>
                   {name.charAt(0).toUpperCase() + name.slice(1)}
                 </Typography>
                 <Stack direction='row' spacing={5}>
-                <Typography variant='h3' color='black' textAlign={'center'}>
+                <Typography variant='h5' className={rob.className} color='black' textAlign={'center'}>
                   {quantity}
                 </Typography>
-                  <Button variant='contained' color='success'
+                  <Button variant='contained' color='success' className={rob.className}
                     onClick={()=>{
                       addItem(name)
                     }}
                   >
                     Add
                   </Button>
-                  <Button variant='contained' color='error'
+                  <Button variant='contained' color='error' className={rob.className}
                     onClick={()=>{
                       removeItem(name)
                     }}
