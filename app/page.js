@@ -99,7 +99,7 @@ export default function Home() {
    *  dGray - #8A8A8A
   */
   return(
-    <Box width='100vw' height='100vh' display='flex' flexDirection={'column'} justifyContent='center'
+    <Box width='100vw' height='90vh' display='flex' flexDirection={'column'} justifyContent='center'
     alignItems='center' gap={0} bgcolor={RED} className={rob.className}>
       <Modal open={open} onClose={handleClose}>
         <Box
