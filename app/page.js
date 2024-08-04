@@ -78,18 +78,26 @@ export default function Home() {
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  
+  let RED = '#E61031';
+  let BLUE = '#005BAD';
+  let WHITE = '#FFFFFF';
+  let GREY = '#F2F2F2';
+  let DGREY = '#8A8A8A';
+  
   /* Use colors:
    *  Red   - #E61031
    *  Blue  - #005BAD
    *  White - #FFFFFF
    *  Grey  - #F2F2F2
+   *  dGray - #8A8A8A
   */
   return(
-    <Box width='100vw' height='100vh' display='flex' flexDirection={'column'} justifyContent='center' alignItems='center' gap='2' bgcolor='#f2f2f2'>
+    <Box width='100vw' height='100vh' display='flex' flexDirection={'column'} justifyContent='center' alignItems='center' gap={0} bgcolor={RED}>
       <Modal open={open} onClose={handleClose}>
         <Box
           position='absolute' top='50%' left='50%' width={400}
-          bgcolor='#f2f2f2' border='2px solid black' boxShadow={24}
+          bgcolor={GREY} border='2px solid black' boxShadow={24}
           p={4} display={"flex"} flexDirection={"column"} gap={3}
           sx={{
             transform:'translate(-50%, -50%)',
